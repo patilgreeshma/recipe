@@ -45,9 +45,9 @@ const DEFAULT_RECIPE = {
 };
 
 export default function App() {
-  const [appState, setAppState] = useLocalStorage('chefai_appState', 'landing');
-  const [recipe, setRecipe] = useLocalStorage('chefai_recipe', DEFAULT_RECIPE);
-  const [ingredients, setIngredients] = useLocalStorage('chefai_ingredients', '');
+  const [appState, setAppState] = useState('landing');
+  const [recipe, setRecipe] = useState(DEFAULT_RECIPE);
+  const [ingredients, setIngredients] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
