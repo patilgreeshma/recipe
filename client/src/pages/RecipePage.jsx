@@ -4,6 +4,7 @@ import RecipeHeader from '../components/RecipeHeader';
 import NutritionPanel from '../components/NutritionPanel';
 import IngredientList from '../components/IngredientList';
 import IngredientSwaps from '../components/IngredientSwaps';
+import StepTimeline from '../components/StepTimeline';
 
 export default function RecipePage({ recipe, onBack, onStartCooking }) {
   const [checkedItems, setCheckedItems] = useState({});
@@ -18,7 +19,7 @@ export default function RecipePage({ recipe, onBack, onStartCooking }) {
       backgroundColor: '#FFFDF0',
       position: 'relative',
       overflow: 'hidden',
-      paddingBottom: '80px',
+      paddingBottom: '100px',
     }}>
       <FloatingVegetables />
 
@@ -60,7 +61,7 @@ export default function RecipePage({ recipe, onBack, onStartCooking }) {
         {/* Section 3: Ingredients Checklist & Fun Swaps */}
         <section style={{
           maxWidth: '1100px',
-          margin: '0 auto',
+          margin: '0 auto 60px auto',
           padding: '0 40px',
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
@@ -75,6 +76,9 @@ export default function RecipePage({ recipe, onBack, onStartCooking }) {
 
           <IngredientSwaps swaps={recipe.swaps} />
         </section>
+
+        {/* Section 4: Steps Timeline (How to Make Magic ✨) */}
+        <StepTimeline steps={recipe.steps} />
       </main>
     </div>
   );
