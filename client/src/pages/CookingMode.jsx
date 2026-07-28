@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiCheck } from 'react-icons/fi';
+import FloatingVegetables from '../components/FloatingVegetables';
 import useCookingMode from '../hooks/useCookingMode';
 import CircularTimer from '../components/CircularTimer';
 
@@ -36,6 +37,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
       position: 'relative',
       overflowX: 'hidden',
     }}>
+      <FloatingVegetables />
 
       {/* Exit button */}
       <button
