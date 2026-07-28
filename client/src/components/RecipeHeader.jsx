@@ -20,7 +20,7 @@ export default function RecipeHeader({ recipe, onStartCooking }) {
       {/* ── LEFT: Image Card ── */}
       <div style={{
         flexShrink: 0,
-        width: '480px',
+        width: '600px',
         height: '520px',
         borderRadius: '32px',
         overflow: 'visible',
@@ -48,22 +48,8 @@ export default function RecipeHeader({ recipe, onStartCooking }) {
         </div>
 
         {/* Sparkle badge — top right corner */}
-        <div style={{
-          position: 'absolute',
-          top: '16px',
-          right: '16px',
-          width: '56px',
-          height: '56px',
-          borderRadius: '50%',
-          background: '#ffffff',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '26px',
-          boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
-        }}>
-          ✨
-        </div>
+      
+       
       </div>
 
       {/* ── RIGHT: Info Card (overlaps image & wider/lengthier) ── */}
@@ -73,7 +59,7 @@ export default function RecipeHeader({ recipe, onStartCooking }) {
         borderRadius: '32px',
         padding: '44px 40px',
         boxShadow: '0 16px 36px rgba(255, 209, 220, 0.5), 0 24px 48px rgba(0, 0, 0, 0.08)',
-        width: '520px',
+        width: '480px',
         flexShrink: 0,
         position: 'relative',
         zIndex: 2,
@@ -142,13 +128,8 @@ export default function RecipeHeader({ recipe, onStartCooking }) {
         </h1>
 
         {/* Sparkle decoration */}
-        <div style={{
-          fontSize: '22px',
-          marginBottom: '18px',
-          color: '#FFD700',
-        }}>
-          ✦✦
-        </div>
+        
+        
 
         {/* Description */}
         <p style={{
