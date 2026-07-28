@@ -1,12 +1,3 @@
-const STEP_TITLES = [
-  'Get Ready! 🎒',
-  'Sizzle Time! 🔥',
-  'Make it Saucy 🥣',
-  'Simmer & Smile ✨',
-  'Plating Paradise 🍽️',
-  'Feast Time! 🎉',
-];
-
 export default function StepTimeline({ steps }) {
   const stepList = steps && steps.length > 0 ? steps : [
     { id: 1, instruction: "Chop-chop the onions and make the tomatoes all squishy. Soak the cashews like they're in a bath!" },
@@ -49,7 +40,7 @@ export default function StepTimeline({ steps }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
           {stepList.map((step, idx) => {
             const stepNum = idx + 1;
-            const stepTitle = STEP_TITLES[idx] || `Step ${stepNum}`;
+
 
             return (
               <div
@@ -104,7 +95,7 @@ export default function StepTimeline({ steps }) {
                     marginBottom: '10px',
                     marginTop: 0,
                   }}>
-                    Step {stepNum}: {stepTitle}
+                    Step {stepNum}
                   </h3>
 
                   {/* Step Instruction */}

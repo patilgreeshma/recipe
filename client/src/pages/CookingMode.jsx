@@ -4,15 +4,6 @@ import FloatingVegetables from '../components/FloatingVegetables';
 import useCookingMode from '../hooks/useCookingMode';
 import CircularTimer from '../components/CircularTimer';
 
-const STEP_TITLES = [
-  'Get Ready! 🎒',
-  'Sizzle Time! 🔥',
-  'Make it Saucy 🥣',
-  'Simmer & Smile ✨',
-  'Plating Paradise 🍽️',
-  'Feast Time! 🎉',
-];
-
 export default function CookingMode({ recipe, onExit, onFinish }) {
   const {
     currentStepIndex,
@@ -24,7 +15,6 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
   } = useCookingMode(recipe.steps);
 
   const totalSteps = recipe.steps.length;
-  const stepTitle = STEP_TITLES[currentStepIndex] || `Step ${currentStepIndex + 1}`;
 
   return (
     <div style={{
@@ -139,7 +129,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
             Step {currentStepIndex + 1} of {totalSteps}
           </div>
 
-          {/* Step Title */}
+          {/* Step Title — dynamic from step number */}
           <h1 style={{
             fontFamily: "'Fredoka', sans-serif",
             fontSize: '40px',
@@ -149,7 +139,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
             marginBottom: '20px',
             lineHeight: 1.2,
           }}>
-            {stepTitle}
+            Step {currentStepIndex + 1} 👨‍🍳
           </h1>
 
           {/* ── Instruction Card (big & prominent) ── */}
