@@ -1,5 +1,3 @@
-import { FiCheck } from 'react-icons/fi';
-
 const STEP_TITLES = [
   'Get Ready! 🎒',
   'Sizzle Time! 🔥',
@@ -51,9 +49,6 @@ export default function StepTimeline({ steps }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
           {stepList.map((step, idx) => {
             const stepNum = idx + 1;
-            const isCompleted = idx === 0;
-            const isCurrent = idx === 1; // Step 2 highlighted like in the design
-
             const stepTitle = STEP_TITLES[idx] || `Step ${stepNum}`;
 
             return (
@@ -72,8 +67,8 @@ export default function StepTimeline({ steps }) {
                   width: '52px',
                   height: '52px',
                   borderRadius: '50%',
-                  background: isCompleted ? '#7BC67E' : isCurrent ? '#FF6B8B' : '#FFFACD',
-                  color: isCompleted || isCurrent ? '#ffffff' : '#4A3728',
+                  background: '#FFFACD',
+                  color: '#4A3728',
                   fontFamily: "'Fredoka', sans-serif",
                   fontSize: '20px',
                   fontWeight: 700,
@@ -81,39 +76,33 @@ export default function StepTimeline({ steps }) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0,
-                  boxShadow: isCurrent ? '0 6px 16px rgba(255, 107, 139, 0.4)' : '0 4px 8px rgba(0,0,0,0.06)',
+                  boxShadow: '0 4px 8px rgba(0,0,0,0.06)',
                   border: '4px solid #ffffff',
                 }}>
-                  {isCompleted ? <FiCheck style={{ fontSize: '22px', strokeWidth: 3 }} /> : stepNum}
+                  {stepNum}
                 </div>
 
                 {/* Step Card */}
                 <div style={{
                   flex: 1,
-                  background: isCompleted ? '#F2FCF2' : '#ffffff',
-                  border: isCompleted
-                    ? '3px solid #B2FBA5'
-                    : isCurrent
-                    ? '4px solid #FF6B8B'
-                    : '3px solid #FFFACD',
+                  background: '#ffffff',
+                  border: '3px solid #FFFACD',
                   borderRadius: '24px',
-                  padding: isCurrent ? '28px 32px' : '24px 28px',
-                  boxShadow: isCurrent
-                    ? '0 12px 28px rgba(255, 107, 139, 0.2), 0 8px 0px rgba(255, 209, 220, 0.5)'
-                    : isCompleted
-                    ? '0 6px 0px rgba(178, 251, 165, 0.3)'
-                    : '0 8px 0px rgba(255, 209, 220, 0.4)',
+                  padding: '24px 28px',
+                  boxShadow: '0 8px 0px rgba(255, 209, 220, 0.45), 0 12px 24px rgba(0, 0, 0, 0.04)',
                   transition: 'transform 0.2s ease',
-                }}>
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; }}
+                >
                   {/* Step Title */}
                   <h3 style={{
                     fontFamily: "'Fredoka', sans-serif",
                     fontSize: '24px',
                     fontWeight: 700,
-                    color: isCompleted ? '#9CA3AF' : isCurrent ? '#FF6B8B' : '#4A3728',
-                    textDecoration: isCompleted ? 'line-through' : 'none',
+                    color: '#4A3728',
                     marginBottom: '10px',
-                    marginTtop: 0,
+                    marginTop: 0,
                   }}>
                     Step {stepNum}: {stepTitle}
                   </h3>
@@ -122,7 +111,7 @@ export default function StepTimeline({ steps }) {
                   <p style={{
                     fontFamily: "'Quicksand', sans-serif",
                     fontSize: '16px',
-                    color: isCompleted ? '#9CA3AF' : '#6B4F3A',
+                    color: '#6B4F3A',
                     lineHeight: 1.6,
                     margin: 0,
                   }}>
