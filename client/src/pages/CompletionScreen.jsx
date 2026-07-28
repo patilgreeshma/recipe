@@ -39,26 +39,7 @@ export default function CompletionScreen({ onHome, onBackToRecipe }) {
         maxWidth: '480px',
         width: '100%',
       }}>
-        {/* Big celebration emoji */}
-        <div style={{ fontSize: '80px', marginBottom: '24px', lineHeight: 1 }}>
-          🎉
-        </div>
-
-        {/* Green checkmark circle */}
-        <div style={{
-          width: '80px',
-          height: '80px',
-          borderRadius: '50%',
-          background: '#E2FBE2',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '40px',
-          marginBottom: '24px',
-          boxShadow: '0 8px 0px rgba(123, 198, 126, 0.35)',
-        }}>
-          ✅
-        </div>
+       
 
         {/* Title */}
         <h1 style={{

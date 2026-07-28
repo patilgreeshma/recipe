@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { FiCheck } from 'react-icons/fi';
 import useCookingMode from '../hooks/useCookingMode';
 import CircularTimer from '../components/CircularTimer';
@@ -32,8 +32,9 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: '0 24px 120px',
+      padding: '0 24px 140px',
       position: 'relative',
+      overflowX: 'hidden',
     }}>
 
       {/* Exit button */}
@@ -64,7 +65,6 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
       <div style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '0px',
         marginTop: '48px',
         marginBottom: '36px',
       }}>
@@ -74,18 +74,17 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
 
           return (
             <div key={idx} style={{ display: 'flex', alignItems: 'center' }}>
-              {/* Connector line before (except first) */}
               {idx > 0 && (
                 <div style={{
                   width: '32px',
                   height: '2px',
                   background: isCompleted ? '#7BC67E' : '#E5E7EB',
+                  transition: 'background 0.4s ease',
                 }} />
               )}
-              {/* Dot */}
               <div style={{
-                width: isCurrent ? '40px' : '32px',
-                height: isCurrent ? '40px' : '32px',
+                width: isCurrent ? '42px' : '32px',
+                height: isCurrent ? '42px' : '32px',
                 borderRadius: '50%',
                 background: isCompleted ? '#7BC67E' : isCurrent ? '#D4622A' : '#E5E7EB',
                 color: isCompleted || isCurrent ? '#ffffff' : '#9CA3AF',
@@ -96,7 +95,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 boxShadow: isCurrent ? '0 4px 16px rgba(212, 98, 42, 0.4)' : 'none',
-                transition: 'all 0.3s ease',
+                transition: 'all 0.35s ease',
               }}>
                 {isCompleted ? <FiCheck style={{ fontSize: '16px', strokeWidth: 3 }} /> : idx + 1}
               </div>
@@ -105,53 +104,81 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
         })}
       </div>
 
-      {/* ── Step Label ── */}
-      <div style={{
-        fontFamily: "'Quicksand', sans-serif",
-        fontSize: '13px',
-        fontWeight: 700,
-        letterSpacing: '2px',
-        color: '#D4622A',
-        background: '#FFF0E6',
-        border: '1.5px solid #F5C9A8',
-        borderRadius: '99px',
-        padding: '5px 14px',
-        marginBottom: '16px',
-        textTransform: 'uppercase',
-      }}>
-        Step {currentStepIndex + 1} of {totalSteps}
-      </div>
+      {/* ── Animated Step Content ── */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentStepIndex}
+          initial={{ opacity: 0, x: 60 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -60 }}
+          transition={{ duration: 0.35, ease: 'easeOut' }}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '100%',
+            maxWidth: '560px',
+          }}
+        >
+          {/* Step Label */}
+          <div style={{
+            fontFamily: "'Quicksand', sans-serif",
+            fontSize: '13px',
+            fontWeight: 700,
+            letterSpacing: '2px',
+            color: '#D4622A',
+            background: '#FFF0E6',
+            border: '1.5px solid #F5C9A8',
+            borderRadius: '99px',
+            padding: '5px 14px',
+            marginBottom: '16px',
+            textTransform: 'uppercase',
+          }}>
+            Step {currentStepIndex + 1} of {totalSteps}
+          </div>
 
-      {/* ── Step Title ── */}
-      <h1 style={{
-        fontFamily: "'Fredoka', sans-serif",
-        fontSize: '36px',
-        fontWeight: 700,
-        color: '#D4622A',
-        textAlign: 'center',
-        marginBottom: '12px',
-        lineHeight: 1.2,
-      }}>
-        {stepTitle}
-      </h1>
+          {/* Step Title */}
+          <h1 style={{
+            fontFamily: "'Fredoka', sans-serif",
+            fontSize: '40px',
+            fontWeight: 700,
+            color: '#D4622A',
+            textAlign: 'center',
+            marginBottom: '20px',
+            lineHeight: 1.2,
+          }}>
+            {stepTitle}
+          </h1>
 
-      {/* ── Step Instruction ── */}
-      <p style={{
-        fontFamily: "'Quicksand', sans-serif",
-        fontSize: '16px',
-        color: '#6B4F3A',
-        textAlign: 'center',
-        lineHeight: 1.6,
-        maxWidth: '420px',
-        marginBottom: '32px',
-      }}>
-        {currentStep.instruction}
-      </p>
+          {/* ── Instruction Card (big & prominent) ── */}
+          <div style={{
+            background: '#ffffff',
+            border: '3px solid #FFFACD',
+            borderRadius: '28px',
+            padding: '32px 36px',
+            boxShadow: '0 12px 0px rgba(255, 209, 220, 0.5), 0 16px 32px rgba(0,0,0,0.05)',
+            width: '100%',
+            marginBottom: '32px',
+          }}>
+            <p style={{
+              fontFamily: "'Quicksand', sans-serif",
+              fontSize: '22px',
+              fontWeight: 600,
+              color: '#4A3728',
+              textAlign: 'center',
+              lineHeight: 1.65,
+              margin: 0,
+            }}>
+              {currentStep.instruction}
+            </p>
+          </div>
 
-      {/* ── Circular Timer ── */}
-      {currentStep.duration > 0 && (
-        <CircularTimer key={currentStepIndex} duration={currentStep.duration} />
-      )}
+          {/* ── Circular Timer ── */}
+          {currentStep.duration > 0 && (
+            <CircularTimer key={currentStepIndex} duration={currentStep.duration} />
+          )}
+        </motion.div>
+      </AnimatePresence>
 
       {/* ── Bottom Navigation Buttons ── */}
       <div style={{
@@ -159,25 +186,25 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
         bottom: 0,
         left: 0,
         right: 0,
-        padding: '20px 32px 32px',
+        padding: '20px 32px 36px',
         display: 'flex',
         gap: '16px',
         justifyContent: 'center',
-        background: 'linear-gradient(to top, #FDF8F2 70%, transparent)',
+        background: 'linear-gradient(to top, #FDF8F2 75%, transparent)',
       }}>
         <button
           onClick={prevStep}
           disabled={isFirstStep}
           style={{
             flex: 1,
-            maxWidth: '180px',
-            padding: '16px 24px',
+            maxWidth: '200px',
+            padding: '18px 24px',
             borderRadius: '99px',
             border: isFirstStep ? '2px solid #E5E7EB' : '2px solid #D4622A',
             background: '#ffffff',
             color: isFirstStep ? '#D1D5DB' : '#D4622A',
             fontFamily: "'Quicksand', sans-serif",
-            fontSize: '17px',
+            fontSize: '18px',
             fontWeight: 700,
             cursor: isFirstStep ? 'not-allowed' : 'pointer',
             display: 'flex',
@@ -194,14 +221,14 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
           onClick={isLastStep ? onFinish : nextStep}
           style={{
             flex: 1,
-            maxWidth: '180px',
-            padding: '16px 24px',
+            maxWidth: '200px',
+            padding: '18px 24px',
             borderRadius: '99px',
             border: 'none',
             background: '#D4622A',
             color: '#ffffff',
             fontFamily: "'Quicksand', sans-serif",
-            fontSize: '17px',
+            fontSize: '18px',
             fontWeight: 700,
             cursor: 'pointer',
             display: 'flex',
