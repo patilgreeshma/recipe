@@ -1,26 +1,16 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiChevronLeft, FiChevronRight, FiCheck } from 'react-icons/fi';
+import { useState } from 'react';
+import { FiCheck } from 'react-icons/fi';
 import useCookingMode from '../hooks/useCookingMode';
-import CookingProgress from '../components/CookingProgress';
 import CircularTimer from '../components/CircularTimer';
-import VoiceButton from '../components/VoiceButton';
 
-const slideVariants = {
-  enter: (direction) => ({
-    x: direction > 0 ? 100 : -100,
-    opacity: 0,
-  }),
-  center: {
-    zIndex: 1,
-    x: 0,
-    opacity: 1,
-  },
-  exit: (direction) => ({
-    zIndex: 0,
-    x: direction < 0 ? 100 : -100,
-    opacity: 0,
-  }),
-};
+const STEP_TITLES = [
+  'Get Ready! 🎒',
+  'Sizzle Time! 🔥',
+  'Make it Saucy 🥣',
+  'Simmer & Smile ✨',
+  'Plating Paradise 🍽️',
+  'Feast Time! 🎉',
+];
 
 export default function CookingMode({ recipe, onExit, onFinish }) {
   const {
@@ -32,122 +22,201 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
     prevStep,
   } = useCookingMode(recipe.steps);
 
-  const formatDuration = (seconds) => {
-    if (seconds < 60) return `${seconds}s`;
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return secs > 0 ? `${mins}m ${secs}s` : `${mins} min`;
-  };
+  const totalSteps = recipe.steps.length;
+  const stepTitle = STEP_TITLES[currentStepIndex] || `Step ${currentStepIndex + 1}`;
 
   return (
-    <div className="min-h-screen bg-gradient-cooking text-white flex flex-col relative overflow-hidden font-body">
-      {/* Top Bar */}
-      <header className="p-6 md:p-8 flex items-center justify-between z-10">
-        <button
-          onClick={onExit}
-          className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer"
-          aria-label="Exit cooking mode"
-        >
-          <FiX className="text-xl" />
-        </button>
-        <div
-          className="text-lg md:text-xl font-bold truncate max-w-[200px] md:max-w-md"
-          style={{ fontFamily: 'var(--font-display)' }}
-        >
-          {recipe.title}
-        </div>
-        <div className="w-12" /> {/* Spacer for centering */}
-      </header>
+    <div style={{
+      minHeight: '100vh',
+      backgroundColor: '#FDF8F2',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: '0 24px 120px',
+      position: 'relative',
+    }}>
 
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col px-6 md:px-12 max-w-4xl mx-auto w-full justify-center pb-32">
-        <CookingProgress currentStep={currentStepIndex} totalSteps={recipe.steps.length} />
+      {/* Exit button */}
+      <button
+        onClick={onExit}
+        style={{
+          position: 'absolute',
+          top: '20px',
+          right: '24px',
+          background: 'rgba(0,0,0,0.06)',
+          border: 'none',
+          borderRadius: '50%',
+          width: '40px',
+          height: '40px',
+          fontSize: '18px',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#6B4F3A',
+        }}
+        aria-label="Exit cooking mode"
+      >
+        ✕
+      </button>
 
-        <div className="relative w-full mt-4 flex-grow flex flex-col justify-center">
-          <AnimatePresence initial={false} custom={1} mode="wait">
-            <motion.div
-              key={currentStepIndex}
-              custom={1}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: 'spring', stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
-              }}
-              className="flex flex-col justify-center w-full"
-            >
-              <div className="text-primary-fixed-dim text-lg md:text-xl font-medium mb-6 flex items-center gap-3 tracking-wide justify-between">
-                <div className="flex items-center gap-3">
-                  <span>Step {currentStep.id}</span>
-                  {currentStep.duration > 0 && (
-                    <>
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary-fixed-dim/50" />
-                      <span className="flex items-center gap-1.5 text-white/70">
-                        ⏱ {formatDuration(currentStep.duration)}
-                      </span>
-                    </>
-                  )}
-                </div>
-                <VoiceButton text={currentStep.instruction} />
-              </div>
-              
-              <h2
-                className="text-3xl md:text-4xl lg:text-5xl font-bold leading-snug mb-10"
-                style={{ fontFamily: 'var(--font-display)' }}
-              >
-                {currentStep.instruction}
-              </h2>
+      {/* ── Step Progress Dots ── */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0px',
+        marginTop: '48px',
+        marginBottom: '36px',
+      }}>
+        {recipe.steps.map((_, idx) => {
+          const isCompleted = idx < currentStepIndex;
+          const isCurrent = idx === currentStepIndex;
 
-              {currentStep.duration > 0 && (
-                <div className="mt-4 flex justify-center">
-                  <CircularTimer duration={currentStep.duration} />
-                </div>
+          return (
+            <div key={idx} style={{ display: 'flex', alignItems: 'center' }}>
+              {/* Connector line before (except first) */}
+              {idx > 0 && (
+                <div style={{
+                  width: '32px',
+                  height: '2px',
+                  background: isCompleted ? '#7BC67E' : '#E5E7EB',
+                }} />
               )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </main>
+              {/* Dot */}
+              <div style={{
+                width: isCurrent ? '40px' : '32px',
+                height: isCurrent ? '40px' : '32px',
+                borderRadius: '50%',
+                background: isCompleted ? '#7BC67E' : isCurrent ? '#D4622A' : '#E5E7EB',
+                color: isCompleted || isCurrent ? '#ffffff' : '#9CA3AF',
+                fontFamily: "'Fredoka', sans-serif",
+                fontSize: isCurrent ? '18px' : '14px',
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: isCurrent ? '0 4px 16px rgba(212, 98, 42, 0.4)' : 'none',
+                transition: 'all 0.3s ease',
+              }}>
+                {isCompleted ? <FiCheck style={{ fontSize: '16px', strokeWidth: 3 }} /> : idx + 1}
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
-      {/* Bottom Navigation */}
-      <footer className="fixed bottom-0 left-0 w-full p-6 md:p-8 bg-gradient-to-t from-[#1a1208] to-transparent z-20">
-        <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
-          <button
-            onClick={prevStep}
-            disabled={isFirstStep}
-            className={`
-              flex-1 md:flex-none md:w-48 py-4 px-6 rounded-2xl flex items-center justify-center gap-2 font-semibold
-              transition-all duration-300
-              ${isFirstStep
-                ? 'bg-white/5 text-white/20 cursor-not-allowed'
-                : 'bg-white/10 text-white hover:bg-white/20 cursor-pointer'
-              }
-            `}
-          >
-            <FiChevronLeft className="text-xl" />
-            <span>Previous</span>
-          </button>
+      {/* ── Step Label ── */}
+      <div style={{
+        fontFamily: "'Quicksand', sans-serif",
+        fontSize: '13px',
+        fontWeight: 700,
+        letterSpacing: '2px',
+        color: '#D4622A',
+        background: '#FFF0E6',
+        border: '1.5px solid #F5C9A8',
+        borderRadius: '99px',
+        padding: '5px 14px',
+        marginBottom: '16px',
+        textTransform: 'uppercase',
+      }}>
+        Step {currentStepIndex + 1} of {totalSteps}
+      </div>
 
-          <button
-            onClick={isLastStep ? onFinish : nextStep}
-            className="flex-[2] md:flex-1 py-4 px-6 rounded-2xl flex items-center justify-center gap-2 font-semibold
-                       bg-primary-container text-white glow-button cursor-pointer"
-          >
-            {isLastStep ? (
-              <>
-                <FiCheck className="text-xl" />
-                <span>Finish Recipe</span>
-              </>
-            ) : (
-              <>
-                <span>Next Step</span>
-                <FiChevronRight className="text-xl" />
-              </>
-            )}
-          </button>
-        </div>
-      </footer>
+      {/* ── Step Title ── */}
+      <h1 style={{
+        fontFamily: "'Fredoka', sans-serif",
+        fontSize: '36px',
+        fontWeight: 700,
+        color: '#D4622A',
+        textAlign: 'center',
+        marginBottom: '12px',
+        lineHeight: 1.2,
+      }}>
+        {stepTitle}
+      </h1>
+
+      {/* ── Step Instruction ── */}
+      <p style={{
+        fontFamily: "'Quicksand', sans-serif",
+        fontSize: '16px',
+        color: '#6B4F3A',
+        textAlign: 'center',
+        lineHeight: 1.6,
+        maxWidth: '420px',
+        marginBottom: '32px',
+      }}>
+        {currentStep.instruction}
+      </p>
+
+      {/* ── Circular Timer ── */}
+      {currentStep.duration > 0 && (
+        <CircularTimer key={currentStepIndex} duration={currentStep.duration} />
+      )}
+
+      {/* ── Bottom Navigation Buttons ── */}
+      <div style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        padding: '20px 32px 32px',
+        display: 'flex',
+        gap: '16px',
+        justifyContent: 'center',
+        background: 'linear-gradient(to top, #FDF8F2 70%, transparent)',
+      }}>
+        <button
+          onClick={prevStep}
+          disabled={isFirstStep}
+          style={{
+            flex: 1,
+            maxWidth: '180px',
+            padding: '16px 24px',
+            borderRadius: '99px',
+            border: isFirstStep ? '2px solid #E5E7EB' : '2px solid #D4622A',
+            background: '#ffffff',
+            color: isFirstStep ? '#D1D5DB' : '#D4622A',
+            fontFamily: "'Quicksand', sans-serif",
+            fontSize: '17px',
+            fontWeight: 700,
+            cursor: isFirstStep ? 'not-allowed' : 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            transition: 'all 0.2s ease',
+          }}
+        >
+          ← Previous
+        </button>
+
+        <button
+          onClick={isLastStep ? onFinish : nextStep}
+          style={{
+            flex: 1,
+            maxWidth: '180px',
+            padding: '16px 24px',
+            borderRadius: '99px',
+            border: 'none',
+            background: '#D4622A',
+            color: '#ffffff',
+            fontFamily: "'Quicksand', sans-serif",
+            fontSize: '17px',
+            fontWeight: 700,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            boxShadow: '0 6px 0px rgba(180, 80, 20, 0.3)',
+            transition: 'transform 0.15s ease',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'none'; }}
+        >
+          {isLastStep ? '✓ Finish' : 'Next →'}
+        </button>
+      </div>
     </div>
   );
 }
