@@ -122,6 +122,7 @@ export default function App() {
         <CompletionScreen
           key="completion"
           onHome={handleReset}
+          onBackToRecipe={() => setAppState('recipe')}
         />
       )}
     </AnimatePresence>
