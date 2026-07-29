@@ -1,6 +1,6 @@
 import { FiZap, FiAward, FiPieChart, FiDroplet } from 'react-icons/fi';
 
-export default function NutritionPanel({ nutrition }) {
+export default function NutritionPanel({ nutrition, servings }) {
   const data = nutrition || {
     calories: '400',
     protein: '18g',
@@ -37,19 +37,34 @@ export default function NutritionPanel({ nutrition }) {
 
   return (
     <section style={{ maxWidth: '1100px', margin: '0 auto 60px auto', padding: '0 40px' }}>
-      {/* Title */}
-      <h2 style={{
-        fontFamily: "'Fredoka', sans-serif",
-        fontSize: '32px',
-        fontWeight: 700,
-        color: '#4A3728',
-        marginBottom: '24px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-      }}>
-        Good Stuff Inside 🍎
-      </h2>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
+        <h2 style={{
+          fontFamily: "'Fredoka', sans-serif",
+          fontSize: '32px',
+          fontWeight: 700,
+          color: '#4A3728',
+          margin: 0,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+        }}>
+          Good Stuff Inside 🍎
+        </h2>
+        {servings && (
+          <span style={{
+            fontFamily: "'Quicksand', sans-serif",
+            fontSize: '14px',
+            fontWeight: 700,
+            color: '#FF6B8B',
+            background: '#FFE5EC',
+            border: '1.5px solid #FFB3C6',
+            borderRadius: '99px',
+            padding: '3px 12px',
+          }}>
+            for {servings} {servings === 1 ? 'serving' : 'servings'}
+          </span>
+        )}
+      </div>
 
       {/* 4 Cards Grid */}
       <div style={{

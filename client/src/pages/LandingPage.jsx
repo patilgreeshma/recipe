@@ -27,7 +27,7 @@ export default function LandingPage({ ingredients, setIngredients, onGenerate, i
           fontFamily: "'Fredoka', sans-serif",
           fontSize: '22px',
           fontWeight: 600,
-          color: '#C1541A',
+          color: '#FF6B8B',
           letterSpacing: '0.5px',
         }}>
           ChefAI 👨‍🍳
@@ -112,7 +112,7 @@ export default function LandingPage({ ingredients, setIngredients, onGenerate, i
                   marginBottom: '20px',
                   transition: 'border-color 0.2s',
                 }}
-                onFocus={e => e.target.style.borderColor = '#C1541A'}
+                onFocus={e => e.target.style.borderColor = '#FF6B8B'}
                 onBlur={e => e.target.style.borderColor = 'rgba(0,0,0,0.08)'}
               />
 
@@ -122,7 +122,7 @@ export default function LandingPage({ ingredients, setIngredients, onGenerate, i
                   type="submit"
                   disabled={!hasIngredients || isLoading}
                   style={{
-                    background: hasIngredients && !isLoading ? '#D4622A' : '#D4622A99',
+                    background: hasIngredients && !isLoading ? '#FF6B8B' : '#ed738eff',
                     color: '#fff',
                     border: 'none',
                     borderRadius: '12px',
@@ -177,50 +177,8 @@ export default function LandingPage({ ingredients, setIngredients, onGenerate, i
 
       </main>
 
-      {/* ── Footer ── */}
-      <footer style={{
-        position: 'relative',
-        zIndex: 10,
-        backgroundColor: '#ffffff',
-        padding: '28px 48px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '16px',
-      }}>
-        <span style={{
-          fontFamily: "'Fredoka', sans-serif",
-          fontSize: '26px',
-          fontWeight: 700,
-          color: '#C1541A',
-        }}>
-          ChefAI 👨‍🍳
-        </span>
-        <nav style={{ display: 'flex', gap: '32px' }}>
-          {['Terms', 'Privacy', 'Recipes', 'About'].map(link => (
-            <a key={link} href="#" style={{
-              fontFamily: "'Quicksand', sans-serif",
-              fontSize: '13px',
-              fontWeight: 700,
-              color: '#6B4F3A',
-              textDecoration: 'none',
-              letterSpacing: '1px',
-              textTransform: 'uppercase',
-            }}>
-              {link}
-            </a>
-          ))}
-        </nav>
-        <span style={{
-          fontFamily: "'Quicksand', sans-serif",
-          fontSize: '12px',
-          color: '#9C7E6A',
-          letterSpacing: '0.5px',
-        }}>
-          © 2024 ChefAI Studio. All rights reserved.
-        </span>
-      </footer>
+     
+     
     </div>
   );
 }

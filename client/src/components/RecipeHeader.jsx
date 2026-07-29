@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import ServingsSlider from './ServingsSlider';
 
-export default function RecipeHeader({ recipe, onStartCooking }) {
-  const [servings, setServings] = useState(recipe.servings || 2);
+export default function RecipeHeader({ recipe, onStartCooking, servings, onServingsChange }) {
   const [liked, setLiked] = useState(false);
 
   return (
@@ -144,7 +143,7 @@ export default function RecipeHeader({ recipe, onStartCooking }) {
 
         {/* Servings Slider */}
         <div style={{ marginBottom: '26px' }}>
-          <ServingsSlider servings={servings} onChange={setServings} />
+          <ServingsSlider servings={servings} onChange={onServingsChange} />
         </div>
 
         {/* Action Buttons */}
