@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: chefai
+    runtime: node
+    region: singapore
+    plan: free
+    rootDir: .
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: PEXELS_API_KEY
+        sync: false
