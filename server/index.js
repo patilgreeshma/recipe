@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(clientDist));
 
   // SPA fallback — all non-API routes serve index.html
-  app.get('*', (req, res) => {
+  app.get('/{*splat}', (req, res) => {
     res.sendFile(join(clientDist, 'index.html'));
   });
 }
