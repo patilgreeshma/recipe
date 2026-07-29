@@ -46,7 +46,7 @@ export default function CircularTimer({ duration, key: stepKey }) {
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke={isComplete ? '#7BC67E' : '#D4622A'}
+            stroke={isComplete ? '#7BC67E' : '#FF6B8B'}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={circumference}

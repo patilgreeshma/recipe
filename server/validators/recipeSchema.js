@@ -33,6 +33,8 @@ const nutritionSchema = z.object({
 export const recipeSchema = z.object({
   title: z.string().min(1, 'Recipe must have a title'),
   description: z.string().default('A delicious recipe'),
+  imageQuery: z.string().optional().default(''),
+  imageUrl: z.string().optional().default(''),
   servings: z.number().min(1).max(20).default(2),
   cookTime: z.string().default('30 mins'),
   difficulty: z.enum(['Easy', 'Medium', 'Hard']).default('Medium'),
@@ -46,6 +48,7 @@ export const recipeSchema = z.object({
     fat: '0g',
   }),
 }).passthrough();
+
 
 /**
  * Validate a parsed recipe object against the Zod schema.

@@ -17,6 +17,7 @@ The JSON schema:
 {
   "title": "string - creative recipe name",
   "description": "string - 1-2 sentence appetizing description",
+  "imageQuery": "string - 2-4 word food photography search query for this specific dish, e.g. 'paneer butter masala' or 'spaghetti carbonara'",
   "servings": number,
   "cookTime": "string - e.g. '25 mins'",
   "difficulty": "string - one of: Easy, Medium, Hard",
@@ -56,6 +57,7 @@ RULES:
 - Include 2-4 ingredient swaps.
 - Make the recipe practical and delicious.
 - Difficulty should match the complexity of the recipe.
+- imageQuery must be the dish name only, suitable for image search (e.g. "dal makhani", "pasta primavera").
 
 USER'S INGREDIENTS:
 ${ingredients}

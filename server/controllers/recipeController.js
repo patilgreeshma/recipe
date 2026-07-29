@@ -5,6 +5,8 @@ import { validateRecipe } from '../validators/recipeSchema.js';
 const MOCK_RECIPE = {
   title: "Mock Paneer Butter Masala",
   description: "A rich and creamy mock recipe provided because the AI API is currently rate-limited.",
+  imageUrl: "",
+  imageQuery: "paneer butter masala",
   servings: 4,
   cookTime: "30 mins",
   difficulty: "Medium",
@@ -35,12 +37,45 @@ const MOCK_RECIPE = {
 };
 
 /**
+ * Fetch a food image URL from Pexels using the imageQuery from Gemini.
+ * Falls back to empty string if Pexels key is not set or request fails.
+ */
+async function fetchFoodImage(query) {
+  const pexelsKey = process.env.PEXELS_API_KEY;
+  if (!pexelsKey || pexelsKey === 'your_pexels_api_key_here') {
+    console.warn('PEXELS_API_KEY not configured — skipping image fetch.');
+    return '';
+  }
+
+  try {
+    const encoded = encodeURIComponent(query + ' food');
+    const res = await fetch(
+      `https://api.pexels.com/v1/search?query=${encoded}&per_page=1&orientation=landscape`,
+      { headers: { Authorization: pexelsKey } }
+    );
+
+    if (!res.ok) {
+      console.warn(`Pexels API returned ${res.status} for query: "${query}"`);
+      return '';
+    }
+
+    const data = await res.json();
+    const photo = data?.photos?.[0];
+    return photo?.src?.large || photo?.src?.medium || '';
+  } catch (err) {
+    console.warn('Pexels fetch failed:', err.message);
+    return '';
+  }
+}
+
+/**
  * Handle recipe generation request.
  * 1. Validates input
  * 2. Calls Gemini
  * 3. Cleans JSON response
  * 4. Validates with Zod
- * 5. Returns structured response
+ * 5. Fetches food image from Pexels using imageQuery
+ * 6. Returns structured response with imageUrl
  */
 export async function generateRecipeController(req, res) {
   try {
@@ -101,7 +136,13 @@ export async function generateRecipeController(req, res) {
       });
     }
 
-    return res.json({ recipe: validation.data });
+    const recipe = validation.data;
+
+    // Fetch dish-specific image from Pexels using imageQuery from Gemini
+    const imageUrl = await fetchFoodImage(recipe.imageQuery || recipe.title);
+    recipe.imageUrl = imageUrl;
+
+    return res.json({ recipe });
   } catch (error) {
     console.error('Recipe generation error:', error.message);
     console.warn('Falling back to MOCK_RECIPE so the recipe page displays seamlessly.');

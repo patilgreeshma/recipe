@@ -46,7 +46,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: '#6B4F3A',
+          color: '#FF6B8B',
         }}
         aria-label="Exit cooking mode"
       >
@@ -78,7 +78,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
                 width: isCurrent ? '42px' : '32px',
                 height: isCurrent ? '42px' : '32px',
                 borderRadius: '50%',
-                background: isCompleted ? '#7BC67E' : isCurrent ? '#D4622A' : '#E5E7EB',
+                background: isCompleted ? '#7BC67E' : isCurrent ? '#FF6B8B' : '#E5E7EB',
                 color: isCompleted || isCurrent ? '#ffffff' : '#9CA3AF',
                 fontFamily: "'Fredoka', sans-serif",
                 fontSize: isCurrent ? '18px' : '14px',
@@ -86,7 +86,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: isCurrent ? '0 4px 16px rgba(212, 98, 42, 0.4)' : 'none',
+                boxShadow: isCurrent ? '0 4px 16px #FF6B8B' : 'none',
                 transition: 'all 0.35s ease',
               }}>
                 {isCompleted ? <FiCheck style={{ fontSize: '16px', strokeWidth: 3 }} /> : idx + 1}
@@ -118,7 +118,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
             fontSize: '13px',
             fontWeight: 700,
             letterSpacing: '2px',
-            color: '#D4622A',
+            color: '#FF6B8B',
             background: '#FFF0E6',
             border: '1.5px solid #F5C9A8',
             borderRadius: '99px',
@@ -134,7 +134,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
             fontFamily: "'Fredoka', sans-serif",
             fontSize: '40px',
             fontWeight: 700,
-            color: '#D4622A',
+            color: '#FF6B8B',
             textAlign: 'center',
             marginBottom: '20px',
             lineHeight: 1.2,
@@ -156,7 +156,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
               fontFamily: "'Quicksand', sans-serif",
               fontSize: '22px',
               fontWeight: 600,
-              color: '#4A3728',
+              color: '#38292cff',
               textAlign: 'center',
               lineHeight: 1.65,
               margin: 0,
@@ -192,9 +192,9 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
             maxWidth: '200px',
             padding: '18px 24px',
             borderRadius: '99px',
-            border: isFirstStep ? '2px solid #E5E7EB' : '2px solid #D4622A',
+            border: isFirstStep ? '2px solid #E5E7EB' : '2px solid #FF6B8B',
             background: '#ffffff',
-            color: isFirstStep ? '#D1D5DB' : '#D4622A',
+            color: isFirstStep ? '#D1D5DB' : '#FF6B8B',
             fontFamily: "'Quicksand', sans-serif",
             fontSize: '18px',
             fontWeight: 700,
@@ -217,7 +217,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
             padding: '18px 24px',
             borderRadius: '99px',
             border: 'none',
-            background: '#D4622A',
+            background: '#FF6B8B',
             color: '#ffffff',
             fontFamily: "'Quicksand', sans-serif",
             fontSize: '18px',
@@ -227,7 +227,7 @@ export default function CookingMode({ recipe, onExit, onFinish }) {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            boxShadow: '0 6px 0px rgba(180, 80, 20, 0.3)',
+            boxShadow: '0 6px 0px #FF6B8B)',
             transition: 'transform 0.15s ease',
           }}
           onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}

@@ -36,7 +36,7 @@ export default function RecipeHeader({ recipe, onStartCooking }) {
           boxShadow: '0 16px 40px rgba(0,0,0,0.12), 0 8px 24px rgba(255, 209, 220, 0.4)',
         }}>
           <img
-            src="/hero-food.png"
+            src={recipe.imageUrl || '/hero-food.png'}
             alt={recipe.title}
             style={{
               width: '100%',
